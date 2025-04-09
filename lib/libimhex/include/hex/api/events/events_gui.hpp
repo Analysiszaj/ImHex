@@ -4,10 +4,14 @@
 
 /* Forward declarations */
 struct GLFWwindow;
-namespace hex { class View; }
+namespace hex
+{
+    class View;
+}
 
 /* GUI events definitions */
-namespace hex {
+namespace hex
+{
 
     /**
      * @brief Signals a newly opened window
@@ -21,7 +25,7 @@ namespace hex {
      *
      * @param view the new view reference
      */
-    EVENT_DEF(EventViewOpened, View*);
+    EVENT_DEF(EventViewOpened, View *);
 
     /**
      * @brief Signals a change in the DPI scale.
@@ -52,7 +56,7 @@ namespace hex {
      *
      * @param window The window reference
      */
-    EVENT_DEF(EventWindowClosing, GLFWwindow*);
+    EVENT_DEF(EventWindowClosing, GLFWwindow *);
 
     /**
      * @brief Informs that the main window is initialized
@@ -70,7 +74,7 @@ namespace hex {
      *
      * @param window The window reference
      */
-    EVENT_DEF(EventWindowDeinitializing, GLFWwindow*);
+    EVENT_DEF(EventWindowDeinitializing, GLFWwindow *);
 
     /**
      * @brief Signals a theme change in the host OS
@@ -82,10 +86,11 @@ namespace hex {
 }
 
 /* silent (no-logging) GUI events definitions */
-namespace hex {
+namespace hex
+{
 
     /**
-     * @brief Signals the start of a new ImGui frame
+     * @brief Signals the start of a new ImGui frame imgui帧开始
      */
     EVENT_DEF_NO_LOG(EventFrameBegin);
 
@@ -115,6 +120,6 @@ namespace hex {
      * @param elementId the element's ID
      * @param boundingBox the bounding box (composed of 4 floats)
      */
-    EVENT_DEF_NO_LOG(EventImGuiElementRendered, ImGuiID, const std::array<float, 4>&);
+    EVENT_DEF_NO_LOG(EventImGuiElementRendered, ImGuiID, const std::array<float, 4> &);
 
 }

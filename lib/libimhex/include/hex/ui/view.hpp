@@ -14,14 +14,16 @@
 #include <hex/providers/provider_data.hpp>
 #include <hex/helpers/utils.hpp>
 
-
 #include <map>
 #include <string>
 
-namespace hex {
+namespace hex
+{
 
-    class View {
+    class View
+    {
         explicit View(UnlocalizedString unlocalizedName, const char *icon);
+
     public:
         virtual ~View() = default;
 
@@ -39,7 +41,7 @@ namespace hex {
         /**
          * @brief Draws content that should always be visible, even if the view is not open
          */
-        virtual void drawAlwaysVisibleContent() { }
+        virtual void drawAlwaysVisibleContent() {}
 
         /**
          * @brief Whether or not the view window should be drawn
@@ -123,18 +125,21 @@ namespace hex {
         friend class ShortcutManager;
     };
 
-
     /**
-     * @brief A view that draws a regular window. This should be the default for most views
+     * @brief A view that draws a regular window. This should be the default for most views 一个视图，绘制一个常规窗口。这应该是大多数视图的默认值
      */
-    class View::Window : public View {
+    class View::Window : public View
+    {
     public:
         explicit Window(UnlocalizedString unlocalizedName, const char *icon) : View(std::move(unlocalizedName), icon) {}
 
-        void draw() final {
-            if (this->shouldDraw()) {
+        void draw() final
+        {
+            if (this->shouldDraw())
+            {
                 ImGui::SetNextWindowSizeConstraints(this->getMinSize(), this->getMaxSize());
-                if (ImGui::Begin(View::toWindowName(this->getUnlocalizedName()).c_str(), &this->getWindowOpenState(), ImGuiWindowFlags_NoCollapse | this->getWindowFlags())) {
+                if (ImGui::Begin(View::toWindowName(this->getUnlocalizedName()).c_str(), &this->getWindowOpenState(), ImGuiWindowFlags_NoCollapse | this->getWindowFlags()))
+                {
                     this->drawContent();
                 }
                 ImGui::End();
@@ -144,14 +149,17 @@ namespace hex {
 
     /**
      * @brief A view that doesn't handle any window creation and just draws its content.
-     * This should be used if you intend to draw your own special window
+     * This should be used if you intend to draw your own special window 一个视图，不处理任何窗口创建，只绘制其内容。
      */
-    class View::Special : public View {
+    class View::Special : public View
+    {
     public:
         explicit Special(UnlocalizedString unlocalizedName) : View(std::move(unlocalizedName), "") {}
 
-        void draw() final {
-            if (this->shouldDraw()) {
+        void draw() final
+        {
+            if (this->shouldDraw())
+            {
                 ImGui::SetNextWindowSizeConstraints(this->getMinSize(), this->getMaxSize());
                 this->drawContent();
             }
@@ -159,9 +167,10 @@ namespace hex {
     };
 
     /**
-     * @brief A view that draws a floating window. These are the same as regular windows but cannot be docked
+     * @brief A view that draws a floating window. These are the same as regular windows but cannot be docked 一个视图，绘制一个浮动窗口。
      */
-    class View::Floating : public View::Window {
+    class View::Floating : public View::Window
+    {
     public:
         explicit Floating(UnlocalizedString unlocalizedName) : Window(std::move(unlocalizedName), "") {}
 
@@ -170,20 +179,24 @@ namespace hex {
     };
 
     /**
-     * @brief A view that draws a modal window. The window will always be drawn on top and will block input to other windows
+     * @brief A view that draws a modal window. The window will always be drawn on top and will block input to other windows 一个视图，绘制一个模态窗口。窗口将始终绘制在顶部，并阻止对其他窗口的输入
      */
-    class View::Modal : public View {
+    class View::Modal : public View
+    {
     public:
         explicit Modal(UnlocalizedString unlocalizedName) : View(std::move(unlocalizedName), "") {}
 
-        void draw() final {
-            if (this->shouldDraw()) {
+        void draw() final
+        {
+            if (this->shouldDraw())
+            {
                 if (this->getWindowOpenState())
                     ImGui::OpenPopup(View::toWindowName(this->getUnlocalizedName()).c_str());
 
                 ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Appearing, ImVec2(0.5F, 0.5F));
                 ImGui::SetNextWindowSizeConstraints(this->getMinSize(), this->getMaxSize());
-                if (ImGui::BeginPopupModal(View::toWindowName(this->getUnlocalizedName()).c_str(), this->hasCloseButton() ? &this->getWindowOpenState() : nullptr, ImGuiWindowFlags_NoCollapse | this->getWindowFlags())) {
+                if (ImGui::BeginPopupModal(View::toWindowName(this->getUnlocalizedName()).c_str(), this->hasCloseButton() ? &this->getWindowOpenState() : nullptr, ImGuiWindowFlags_NoCollapse | this->getWindowFlags()))
+                {
                     this->drawContent();
 
                     ImGui::EndPopup();
